@@ -1,11 +1,11 @@
 package com.hita.shifttracker.controller;
 
 import com.hita.shifttracker.dto.AppUserDTO;
-import com.hita.shifttracker.dto.CompanyDTO;
-import com.hita.shifttracker.model.WorkingTimeUserWtCalView;
-import com.hita.shifttracker.repository.AppUserRepository;
-import com.hita.shifttracker.repository.CompanyRepository;
-import com.hita.shifttracker.repository.WorkingTimeUserWtCalViewRepository;
+import com.hita.shifttracker.model.AppUser;
+import com.hita.shifttracker.model.Company;
+import com.hita.shifttracker.service.AppUserService;
+import com.hita.shifttracker.service.CompanyService;
+import com.hita.shifttracker.service.WorkingTimeItemService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,19 +13,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
+
 
 @Controller
 public class HeadNurseController {
 
-    private final AppUserRepository appUserRepository;
-    private final CompanyRepository companyRepository;
-    private final WorkingTimeUserWtCalViewRepository wtuvRepository;
+    private final AppUserService appUserService;
+    private final CompanyService companyService;
+    private final WorkingTimeItemService workingTimeItemService;
 
-    public HeadNurseController(AppUserRepository appUserRepository, CompanyRepository companyRepository,
-                               WorkingTimeUserWtCalViewRepository wtuvRepository) {
-        this.appUserRepository = appUserRepository;
-        this.companyRepository = companyRepository;
-        this.wtuvRepository = wtuvRepository;
+    public HeadNurseController(AppUserService appUserService, CompanyService companyService,
+                               WorkingTimeItemService workingTimeItemService) {
+        this.appUserService = appUserService;
+        this.companyService = companyService;
+        this.workingTimeItemService = workingTimeItemService;
     }
 
     // Popis svih zaposlenika
@@ -33,10 +35,9 @@ public class HeadNurseController {
     public String getEmployeeList(Model model, HttpSession session) {
         AppUserDTO appUser = (AppUserDTO) session.getAttribute("appUser");
         model.addAttribute("appUser", appUser);
-
-        List<AppUserDTO> employees = appUserRepository.findAllEmployees();
+        // find all employees
+        List<AppUserDTO> employees = appUserService.getAllEmployees();
         model.addAttribute("employees", employees);
-
 
         return "head_nurse_employee_list";
     }
@@ -47,24 +48,47 @@ public class HeadNurseController {
         AppUserDTO appUser = (AppUserDTO) session.getAttribute("appUser");
         model.addAttribute("appUser", appUser);
 
-        // find employee
-        AppUserDTO employee = appUserRepository.findEmployeeById(id);
+        AppUserDTO employee = appUserService.getEmployeeById(id);
         model.addAttribute("employee", employee);
 
-        CompanyDTO company = companyRepository.findByIdWithData(1);
+        Company company = companyService.findWithData();
         model.addAttribute("company", company);
 
-        List<WorkingTimeUserWtCalView> wtuvs = wtuvRepository.findAllByAppUserCode(employee.getUserCode(), 2);
-        model.addAttribute("wtuvs", wtuvs);
-
-        // data for new employee
+        // working time item per employee by month and year
+        // get all workhour by employee
+        List<Map<String, Object>> workingTimeItems = workingTimeItemService.getWorkingTimeItemByDays(employee.getId(), 2,2025);
+        model.addAttribute("wtis", workingTimeItems);
 
         return "head_nurse_employee_workhour";
     }
 
     // Dodaj novog zaposlenika
-    @GetMapping("/head_nurse/employee/new/process")
-    public String employeeNewProcess(){
+    @GetMapping("/head_nurse/add/employee")
+    public String employeeNewProcess(Model model,
+                                     @RequestParam("firstName") String firstName,
+                                     @RequestParam("lastName") String lastName,
+                                     @RequestParam("oib") String oib,
+                                     @RequestParam("telephone") String telephone,
+                                     @RequestParam("email") String email,
+                                     @RequestParam("password") String password,
+                                     @RequestParam("teamRole") int teamRole,
+                                     @RequestParam("orgUnit") int orgUnit,
+                                     @RequestParam("team") int team){
+
+        AppUser employee = new AppUser();
+        employee.setFirstName(firstName);
+        employee.setLastName(lastName);
+        employee.setOib(oib);
+        employee.setTelephone(telephone);
+        employee.setEmail(email);
+        employee.setPassword(password);
+        employee.setTeamRoleId(teamRole);
+        employee.setWorkRoleId(teamRole);
+        employee.setOrganizationUnitId(orgUnit);
+        employee.setTeamId(team);
+
+        appUserService.saveEmployee(employee);
         return "redirect:/head_nurse/employee/list";
     }
+
 }

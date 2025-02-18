@@ -135,7 +135,7 @@
                 <input type="search" id="searchInput" class="form-control search-input" placeholder="Pretraži zaposlenike...">
             </div>
             <div>
-                <button class="btn btn-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterDrawer" aria-controls="filterDrawer">
+                <button class="btn btn-warning" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterDrawer" aria-controls="filterDrawer">
                     <i class="bi bi-funnel"></i> Filtriraj
                 </button>
                 <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
@@ -159,9 +159,9 @@
                 <thead>
                 <tr>
                     <th>Ime i prezime</th>
-                    <th>Uloga</th>
+                    <th>Radna jedinica</th>
                     <th>Tim</th>
-                    <th>Radna</th>
+                    <th>Uloga</th>
                     <th>Upravljanje</th>
                 </tr>
                 </thead>
@@ -170,9 +170,9 @@
                     <td>
                         <a th:text="${employee.firstName} + ' ' + ${employee.lastName}" th:href="@{/head_nurse/workhour/list(id=${employee.id})}" class="employeeName"></a>
                     </td>
-                    <td th:text="${employee.roleName}"></td>
-                    <td th:text="${employee.teamName}"></td>
                     <td th:text="${employee.orgUnitName}"></td>
+                    <td th:text="${employee.teamName}">Tim 1</td>
+                    <td th:text="${employee.teamRoleName}">Vozač</td>
                     <td>
                         <a th:href="@{/head_nurse/workhour/list(id=${employee.id})}" class="btn btn-outline-dark">Pregled</a>
                     </td>
@@ -195,7 +195,7 @@
             </div>
 
             <div class="modal-body">
-                <form action="/head_nurse/add/user">
+                <form action="/head_nurse/add/employee">
                     <div class="mb-3">
                         <label class="form-label">Ime</label>
                         <input type="text" class="form-control" name="firstName">
@@ -246,9 +246,6 @@
                         <select class="form-select" name="team">
                             <option value="1">Tim 1</option>
                             <option value="2">Tim 2</option>
-                            <option value="3">Tim 3</option>
-                            <option value="4">Tim 4</option>
-                            <option value="5">Tim 5</option>
                         </select>
                     </div>
             </div>
@@ -328,10 +325,6 @@
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="uloga" id="vozac" value="Vozač">
                         <label class="form-check-label" for="vozac">Vozač</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="uloga" id="tehnicar" value="Tehničar">
-                        <label class="form-check-label" for="tehnicar">Tehničar</label>
                     </div>
                 </div>
             </div>

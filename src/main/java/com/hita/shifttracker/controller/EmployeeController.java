@@ -51,7 +51,6 @@ public class EmployeeController {
         model.addAttribute("appUser", appUser);
         model.addAttribute("company", company);
 
-
         return "employee_workhour_list";
     }
 

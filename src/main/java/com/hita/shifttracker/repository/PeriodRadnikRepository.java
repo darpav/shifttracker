@@ -36,5 +36,10 @@ public class PeriodRadnikRepository {
         });
     }
 
+    public void closePeriodRadnik(int month, int year, int appUserId) {
+        String sql = "INSERT INTO period_radnik (app_user_id, period_id, status, inserted_at, uid_ins_upd, year, month) " +
+                "VALUES (?, (SELECT id FROM period WHERE month = ? AND year = ?), 'C', NOW(), NOW(), ?, ?, ?)";
 
+        jdbcTemplate.update(sql, appUserId, month, year, appUserId, year, month);
+    }
 }

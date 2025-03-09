@@ -196,8 +196,8 @@ public class WorkingTimeService {
         }
     }
 
-    public void closePeriod(int month, int year) {
-
+    public void closePeriod(int month, int year, int appUserId) {
+        periodRadnikRepository.closePeriodRadnik(month, year, appUserId);
     }
     // working time service for period status
     // period radnik status

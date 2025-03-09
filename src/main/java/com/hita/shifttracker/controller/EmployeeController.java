@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -195,6 +197,9 @@ public class EmployeeController {
     @GetMapping("/employee/workhour/sendreport")
     public String sendReport(@RequestParam("month") String monthYearSelection) {
         System.out.println("Predaj Evidenciju: " + monthYearSelection);
+        YearMonth yearMonth = YearMonth.parse(monthYearSelection, DateTimeFormatter.ofPattern("yyyy_MM"));
+        int year = yearMonth.getYear();
+        int month = yearMonth.getMonthValue();
         return "redirect:/employee/workhour/list";
     }
 

@@ -192,5 +192,11 @@ public class EmployeeController {
         return "redirect:/employee/workhour/list";
     }
 
+    @GetMapping("/employee/workhour/sendreport")
+    public String sendReport(@RequestParam("month") String monthYearSelection) {
+        System.out.println("Predaj Evidenciju: " + monthYearSelection);
+        return "redirect:/employee/workhour/list";
+    }
+
 
 }

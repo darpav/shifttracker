@@ -254,6 +254,9 @@
                         <div class="col-md-4 d-flex justify-content-center">
                             <p class="mb-0 ps-4"><strong>Ukupno ovaj mjesec: </strong>&nbsp;<span id="totalSum">0</span></p>
                         </div>
+                        <div class="col-md-4 d-flex justify-content-center">
+                            <p class="mb-0 ps-4"><strong>Status: </strong>&nbsp;<span id="status">Otvoren</span></p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -270,7 +273,7 @@
                 </div>
                 <div class="d-flex justify-content-end mb-3">
                     <buton class="btn btn-primary me-1" id="absenceButton">Odsutnosti</buton>
-                    <buton class="btn btn-dark">Predaj evidenciju</buton>
+                    <a class="btn btn-dark" href="#" th:href="@{/employee/workhour/sendreport}" id="sendReport">Predaj evidenciju</a>
                 </div>
             </div>
         </div>
@@ -400,6 +403,25 @@
 <script th:src="@{/scripts/workHoursFormRules.js}"></script>
 <script type="module" th:src="@{/scripts/employee/employeeRenderWorkHoursTable.js}"></script>
 <script type="module" th:src="@{/scripts/employee/employeeLoadWorkHoursData.js}"></script>
+<script>
+    document.getElementById('sendReport').addEventListener('click', function(event) {
+        // Get the selected month-year from the input field
+        const selectedMonthYear = document.getElementById('monthYearSelection').value;
+
+        if (selectedMonthYear) {
+            // The value will be in the format 'YYYY-MM', so we can use that
+            // Update the href attribute dynamically with the selected value
+            const updatedHref = '/employee/workhour/sendreport?month=' + selectedMonthYear;
+
+            // Update the link's href attribute
+            this.href = updatedHref;
+        } else {
+            // If no month is selected, prevent the link from navigating
+            event.preventDefault();
+            alert('Please select a month and year.');
+        }
+    });
+</script>
 
 </body>
 </html>

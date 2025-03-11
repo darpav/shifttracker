@@ -340,6 +340,11 @@ public class HeadNurseController {
         return ResponseEntity.ok("apache-superset-railway-production-1c0e.up.railway.app");
     }
 
+    @GetMapping("/head_nurse/ifr")
+    public String ss(){
+        return "ifr";
+    }
+
 
 //    @GetMapping("/head_nurse/workhour/report/download")
 //    public ResponseEntity<byte[]> getEmployeeWorkHourReport(@RequestParam ("employeeId") int employeeId,

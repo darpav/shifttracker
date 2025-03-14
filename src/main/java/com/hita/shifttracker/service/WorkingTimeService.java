@@ -122,8 +122,11 @@ public class WorkingTimeService {
         List<WorkingTimeItem> workingTimeItems = workingTimeItemRepository.findItemByAppUserIdAndDate(
                 workingOvertime.getAppUserId(), workingOvertime.getDateFrom());
 
+        System.out.println("service overtime`");
+
         // ako postoji uzmi kljuc
         if(workingTimeItems.size() > 0) {
+            System.out.println("size > 0");
             WorkingTimeItem workingTimeItem = workingTimeItems.get(0);
             int workTimeId = workingTimeItem.getWorkTimeId();
             workingOvertime.setIdWorkTime(workTimeId);
@@ -151,7 +154,7 @@ public class WorkingTimeService {
                 if(!isOverlapping) {
                     workingOvertime.setTotalHours(TimeConverterHelper.calculateTotalHours(
                             workingOvertime.getHoursFrom(), workingOvertime.getHoursTo()));
-
+                    System.out.println("insert overtime");
                     // check if overtime exists by app user id and date and id work time
                     workingOvertimeRepository.insert(workingOvertime);
                 }

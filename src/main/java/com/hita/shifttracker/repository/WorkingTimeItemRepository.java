@@ -3,12 +3,12 @@ package com.hita.shifttracker.repository;
 import com.hita.shifttracker.dto.AppUserDTO;
 import com.hita.shifttracker.dto.WorkingTimeItemDTO;
 import com.hita.shifttracker.dto.WorkingTimeItemTotalHourDTO;
-import com.hita.shifttracker.model.AppUser;
 import com.hita.shifttracker.model.WorkingTimeItem;
 import com.hita.shifttracker.model.WorkingTimeItemView;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -139,7 +139,7 @@ public class WorkingTimeItemRepository {
                      "wti.work_type_code, wti.hours_from, wti.hours_to, wti.total_hours, wti.item_number " +
                      "FROM working_time_item wti " +
                      "WHERE wti.app_user_id = ? " +
-                     "AND wti.date = ?";
+                     "AND wti.date = ? ";
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             WorkingTimeItem workingTimeItem = new WorkingTimeItem();

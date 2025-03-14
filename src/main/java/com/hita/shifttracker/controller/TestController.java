@@ -26,9 +26,9 @@ public class TestController {
     @GetMapping("/test")
     public String test(Model model) {
 
-        WorkingTimeItem wti = repo.findItemByAppUserIdAndDate(30, LocalDate.of(2025,2,11)).get(0);
+        //WorkingTimeItem wti = repo.findItemByAppUserIdAndDate(30, LocalDate.of(2025,2,11)).get(0));
 
-        System.out.println(wti.toString());
+        //System.out.println(wti.toString());
 
 
 

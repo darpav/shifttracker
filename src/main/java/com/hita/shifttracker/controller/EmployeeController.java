@@ -165,12 +165,10 @@ public class EmployeeController {
 
         AppUserDTO appUser = (AppUserDTO) session.getAttribute("appUser");
 
+        System.out.println("overtime controller");
+
         LocalDateTime overtimeStartDT = LocalDateTime.parse(overtimeStart);
         LocalDateTime overtimeEndDT = LocalDateTime.parse(overtimeEnd);
-
-        System.out.println("overtime start: " + overtimeEndDT);
-        System.out.println("overtime end: " + overtimeEndDT);
-        System.out.println("working overtime id: " + workingOvertimeId);
 
         LocalDate overtimeDateFrom = overtimeStartDT.toLocalDate();
         LocalDate overtimeDateTo = overtimeEndDT.toLocalDate();
